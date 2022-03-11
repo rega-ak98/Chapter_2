@@ -1,6 +1,5 @@
 // No.1
-const changeWord = (selectedtext,changedtext,text) => {
-  return text.replace(selectedtext,changedtext);}
+const changeWord = (selectedtext,changedtext,text) => text.replace(selectedtext,changedtext);
 const kalimat1 = 'Andini sangat mencintai kamu selamanya'
 const kalimat2 = 'Gunung bromo tak akan mampu menggambarkan besarnya cintaku padamu'
 console.log(changeWord('mencintai','membenci',kalimat1))
@@ -31,11 +30,11 @@ const checkEmail = (email) => {
   if (email == null){
     return 'ERROR : format kosong (Tidak ada parameter)'
   }
-  if (re.test(email)){
-    return 'VALID'
-  }
   if (email.indexOf('@')<0){
     return 'ERROR : Harap masukkan email dengan lengkap (" @ ")'
+  }
+  if (re.test(email)){
+    return 'VALID'
   }
     return 'INVALID'
 }
@@ -160,14 +159,14 @@ console.log(hitungTotalPenjualan(dataPenjualanPakAldi))
 
 // no.8
 const dataPenjualanNovel = [
-  {
-    idProduct: 'BOOK002421',
-    namaProduk: 'Pulang - Pergi',
-    penulis: 'Tere Liye',
-    hargaBeli: 60000,
-    hargaJual: 86000,
-    totalTerjual: 150,
-    sisaStok: 17,
+  { 
+    idProduct: 'BOOK002941',
+    namaProduk: 'Laskar Pelangi',
+    penulis: 'Andrea Hirata',
+    hargaBeli: 55000,
+    hargaJual: 68000,
+    totalTerjual: 20,
+    sisaStok: 56,
   },
   {
     idProduct: 'BOOK002351',
@@ -188,13 +187,13 @@ const dataPenjualanNovel = [
     sisaStok: 5,
   },
   {
-    idProduct: 'BOOK002941',
-    namaProduk: 'Laskar Pelangi',
-    penulis: 'Andrea Hirata',
-    hargaBeli: 55000,
-    hargaJual: 68000,
-    totalTerjual: 20,
-    sisaStok: 56,
+    idProduct: 'BOOK002421',
+    namaProduk: 'Pulang - Pergi',
+    penulis: 'Tere Liye',
+    hargaBeli: 60000,
+    hargaJual: 86000,
+    totalTerjual: 150,
+    sisaStok: 17,
   },
 ];
 
@@ -213,10 +212,27 @@ const getInfoPenjualan = (dataPenjualan) => {
       const bukuTerlaris = dataPenjualan.reduce(
         (prev,curr) => curr.totalTerjual > (prev.totalTerjual || 0) ? curr : prev.namaProduk
       )
-      
-      const penulisTerlaris = dataPenjualan.reduce(
-        (prev,curr) =>( curr.totalTerjual > (prev.totalTerjual||0) ? curr : prev.penulis)) 
+      const penulisTerlarisFix = dataPenjualan.reduce((prev, curr) =>{
+        const index = prev.findIndex(search => search.penulis === curr.penulis)
+        if(index !== -1){
+          const dataPenjualan = [...prev]
+          dataPenjualan[index].totalTerjual += curr.totalTerjual
+          return[...dataPenjualan]
+        }
+        return [...prev,curr]
+      },[]
+      )
+    penulisTerlaris = penulisTerlarisFix.reduce(
+      (prev,curr) =>( curr.totalTerjual > (prev.totalTerjual||0) ? curr : prev.penulis)) 
+      // const penulisTerlaris = dataPenjualan.reduce(
+      //   (prev,curr) =>( curr.totalTerjual > (prev.totalTerjual||0) ? curr : prev.penulis)) 
 
-      return `totalKeuntungan : 'Rp. ${new Intl.NumberFormat('id-ID').format(Math.floor(totalKeuntungan))}'\ntotalModal : 'Rp. ${new Intl.NumberFormat('id-ID').format(Math.floor(totalModal))}'\npersentaseKeutungan : '${(persentaseKeuntungan).toFixed(2)} %'\nbukuTerlaris : '${bukuTerlaris}'\npenulisTerlaris : '${penulisTerlaris}'`
-}
+        return {
+          totalKeuntungan: `Rp. ${new Intl.NumberFormat('id-ID').format(Math.floor(totalKeuntungan))}`,
+          totalModal: `Rp. ${new Intl.NumberFormat('id-ID').format(Math.floor(totalModal))}`,
+          persentaseKeuntungan : `${(persentaseKeuntungan).toFixed(2)} %`,
+          bukuTerlaris: `${bukuTerlaris}`,
+          penulisTerlaris: `${penulisTerlaris}`,
+        }
+    }
 console.log(getInfoPenjualan(dataPenjualanNovel))
