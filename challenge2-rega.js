@@ -24,21 +24,20 @@ console.log(checkTypeNumber())
 
 // no.3
 const checkEmail = (email) => {
+  let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   if(typeof email == 'number'){
     return 'ERROR : Format salah (Bukan number)'
   }
   if (email == null){
     return 'ERROR : format kosong (Tidak ada parameter)'
   }
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+  if (re.test(email)){
     return 'VALID'
   }
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)+$/.test(email)){
+  if (email.indexOf('@')<0){
+    return 'ERROR : Harap masukkan email dengan lengkap (" @ ")'
+  }
     return 'INVALID'
-  }
-  if (/^[a-zA-Z]+$/.test(email)){
-    return 'ERROR : Harap masukkan email lengkap (" @ ")'
-  }
 }
 console.log(checkEmail('rega@gmail.com'))
 console.log(checkEmail('rega@gmail.co.id'))
@@ -50,11 +49,12 @@ console.log(checkEmail())
 
 // no.4
 const isValidPassword = (pw) => {
+  let re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
   if (pw == null){
     return 'ERROR : Format kosong (Tidak ada Parameter)'}
   if (typeof pw == 'number'){
     return 'ERROR : format salah (Bukan number)'}
-  if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(pw)){
+  if (re.test(pw)){
     return 'true'}
     return 'false'}
 console.log(isValidPassword('Meong2021'))
@@ -67,7 +67,6 @@ console.log(isValidPassword())
 
 // no.5
 const getSplitName = (personName) =>{
-  if(typeof personName == 'number'){return 'format salah (bukan number)'}
   const name = personName.split(' ')
   const lengthName = name.length
   switch(lengthName){
@@ -97,7 +96,6 @@ console.log(getSplitName('Rega Andhika Kusuma'))
 console.log(getSplitName('Rega Andhika'))
 console.log(getSplitName('Rega'))
 console.log(getSplitName('Rega Andhika Kusuma Lagi'))
-console.log(getSplitName(0))
 
 
 // no.6
