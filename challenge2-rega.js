@@ -223,9 +223,7 @@ const getInfoPenjualan = (dataPenjualan) => {
       },[]
       )
     penulisTerlaris = penulisTerlarisFix.reduce(
-      (prev,curr) =>( curr.totalTerjual > (prev.totalTerjual||0) ? curr : prev.penulis)) 
-      // const penulisTerlaris = dataPenjualan.reduce(
-      //   (prev,curr) =>( curr.totalTerjual > (prev.totalTerjual||0) ? curr : prev.penulis)) 
+      (prev,curr) =>( curr.totalTerjual > (prev.totalTerjual||0) ? curr : prev.penulis))  
 
         return {
           totalKeuntungan: `Rp. ${new Intl.NumberFormat('id-ID').format(Math.floor(totalKeuntungan))}`,
